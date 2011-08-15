@@ -29,7 +29,7 @@ sub cmd_affiliate {
         $server->command("$affil");
     }
     else {
-        Irssi::print("/affiliate none|owner|admin|member|outcast [jid]");
+        Irssi::active_win()->print("/affiliate none|owner|admin|member|outcast [jid]");
     }
 }
 
