@@ -33,18 +33,38 @@ sub cmd_affiliate {
     }
 }
 
-#/role role_level nickname
+#/role role_level nickname [reason]
 sub cmd_role {
     my ($data,$server,$wid) = @_;
     @items = split(" ", $data);
     if ($items[1]) {
-        $role = "QUOTE <iq type=\'set\' id=\'role_set\' to=\'$wid->{name}\'> <query xmlns=\'http://jabber.org/protocol/muc#admin\'> <item nick=\'$items[1]\' role=\'$items[0]\'/> </query> </iq>";
+        if ($items[2]) {
+            $data =~ s/^.*?[\s]+.*?[\s]+//;
+            $reason = "<reason>$data</reason>";
+        }
+        else {
+            $reason = "";
+        }
+        $role = "QUOTE <iq type=\'set\' id=\'role_set\' to=\'$wid->{name}\'> <query xmlns=\'http://jabber.org/protocol/muc#admin\'> <item nick=\'$items[1]\' role=\'$items[0]\'> $reason </item> </  query> </iq>";
         $server->command("$role");
     }
     else {
-        Irssi::print("/role none|moderator|participant|visitor nickname");
+        Irssi::active_win()->print("/role none|moderator|participant|visitor nickname [reason]");
+    }
+}
+
+#/kick nickname [reason]
+sub cmd_kick {
+    my ($data,$server,$wid) = @_;
+    @items = split(" ", $data);
+    if ($items[0]) {
+        cmd_role("none " . $data,$server,$wid);
+    }
+    else {
+        Irssi::active_win()->print("/kick nickname [reason]");
     }
 }
 
 Irssi::command_bind('affiliate', \&cmd_affiliate);
 Irssi::command_bind('role', \&cmd_role);
+Irssi::command_bind('kick', \&cmd_kick);
