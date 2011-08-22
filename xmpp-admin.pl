@@ -45,7 +45,7 @@ sub cmd_role {
         else {
             $reason = "";
         }
-        $role = "QUOTE <iq type=\'set\' id=\'role_set\' to=\'$wid->{name}\'> <query xmlns=\'http://jabber.org/protocol/muc#admin\'> <item nick=\'$items[1]\' role=\'$items[0]\'> $reason </item> </  query> </iq>";
+        $role = "QUOTE <iq type=\'set\' id=\'role_set\' to=\'$wid->{name}\'> <query xmlns=\'http://jabber.org/protocol/muc#admin\'> <item nick=\'$items[1]\' role=\'$items[0]\'> $reason </item> </query> </iq>";
         $server->command("$role");
     }
     else {
